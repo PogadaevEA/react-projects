@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs'
 import './BookList.css'
-import { removeBook, toogleFavorite } from '../../redux/books/actionCreators'
+import { removeBook, toggleFavorite, selectBooks } from '../../redux/slices/bookSlice'
 import { selectTitleFilter, selectAuthorFilter, selectOnlyFavoritesFilter } from '../../redux/slices/filterSlice'
 
 function filterByTitleAndAuthor(books, titleFilter, authorFilter, onlyFavorites) {
@@ -14,7 +14,7 @@ function filterByTitleAndAuthor(books, titleFilter, authorFilter, onlyFavorites)
 }
 
 const BookList = () => {
-  const books = useSelector((state) => state.books)
+  const books = useSelector(selectBooks)
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
   const onlyFavorites = useSelector(selectOnlyFavoritesFilter)
@@ -25,13 +25,13 @@ const BookList = () => {
     dispatch(removeBook(id))
   }
 
-  const handleToogleFavorite = (id) => {
-    dispatch(toogleFavorite(id))
+  const handleToggleFavorite = (id) => {
+    dispatch(toggleFavorite(id))
   }
 
   const highlightMatch = (text, filter) => {
     if (!filter) return text
-    
+
     const regex = new RegExp(`(${filter})`, 'gi')
 
     return text.split(regex).map((substring, index) => {
@@ -60,7 +60,7 @@ const BookList = () => {
                 {++index}. {highlightMatch(book.title, titleFilter)} by <strong>{highlightMatch(book.author, authorFilter)}</strong>
               </div>
               <div className="book-actions">
-                <span onClick={() => handleToogleFavorite(book.id)}>{book.isFavorite ? <BsBookmarkStarFill className="star-icon" /> : <BsBookmarkStar className="star-icon" />}</span>
+                <span onClick={() => handleToggleFavorite(book.id)}>{book.isFavorite ? <BsBookmarkStarFill className="star-icon" /> : <BsBookmarkStar className="star-icon" />}</span>
                 <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
               </div>
             </li>
