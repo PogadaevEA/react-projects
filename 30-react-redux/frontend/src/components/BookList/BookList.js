@@ -2,13 +2,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs'
 import './BookList.css'
 import { removeBook, toogleFavorite } from '../../redux/books/actionCreators'
-import { selectTitleFilter, selectAuthorFilter } from '../../redux/slices/filterSlice'
+import { selectTitleFilter, selectAuthorFilter, selectOnlyFavoritesFilter } from '../../redux/slices/filterSlice'
 
-function filterByTitleAndAuthor(books, titleFilter, authorFilter) {
+function filterByTitleAndAuthor(books, titleFilter, authorFilter, onlyFavorites) {
   return books.filter((book) => {
     const titleMatch = book.title.toLowerCase().includes(titleFilter.toLowerCase())
     const authorMatch = book.author.toLowerCase().includes(authorFilter.toLowerCase())
-    return titleMatch && authorMatch
+    const onlyFavoritesMatch = book.isFavorite === onlyFavorites
+    return titleMatch && authorMatch && onlyFavoritesMatch
   })
 }
 
@@ -16,7 +17,8 @@ const BookList = () => {
   const books = useSelector((state) => state.books)
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
-  const filteredBooks = filterByTitleAndAuthor(books, titleFilter, authorFilter)
+  const onlyFavorites = useSelector(selectOnlyFavoritesFilter)
+  const filteredBooks = filterByTitleAndAuthor(books, titleFilter, authorFilter, onlyFavorites)
   const dispatch = useDispatch()
 
   const handleDeleteBook = (id) => {
