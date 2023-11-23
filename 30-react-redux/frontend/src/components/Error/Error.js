@@ -7,6 +7,7 @@ import { clearError, selectErrorMessage } from '../../redux/slices/errorSlice'
 const Error = () => {
   const errorMessage = useSelector(selectErrorMessage)
   const dispatch = useDispatch()
+  
   useEffect(() => {
     if (errorMessage) {
       toast.error(errorMessage)
