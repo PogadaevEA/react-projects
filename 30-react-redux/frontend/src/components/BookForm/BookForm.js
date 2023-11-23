@@ -1,38 +1,38 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import './BookForm.css';
-import { addBook, fetchBook } from '../../redux/slices/bookSlice';
-import books from '../../data/books.json';
-import createBookWithId from '../../utils/createBookWithId';
-import { setError } from '../../redux/slices/errorSlice';
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import './BookForm.css'
+import { addBook, fetchBook } from '../../redux/slices/bookSlice'
+import books from '../../data/books.json'
+import createBookWithId from '../../utils/createBookWithId'
+import { setError } from '../../redux/slices/errorSlice'
 
 const BookForm = () => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const dispatch = useDispatch();
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (title && author) {
-      dispatch(addBook(createBookWithId({ title, author }, 'manual')));
+      dispatch(addBook(createBookWithId({ title, author }, 'manual')))
 
-      setTitle('');
-      setAuthor('');
+      setTitle('')
+      setAuthor('')
     } else {
-      dispatch(setError('Please fill title and author fields'));
+      dispatch(setError('Please fill title and author fields'))
     }
-  };
+  }
 
   const handleAddRandomBookFromFile = () => {
-    const randomIndex = Math.floor(Math.random() * books.length);
+    const randomIndex = Math.floor(Math.random() * books.length)
 
-    dispatch(addBook(createBookWithId({ ...books[randomIndex] }, 'random')));
-  };
+    dispatch(addBook(createBookWithId({ ...books[randomIndex] }, 'random')))
+  }
 
   const handleAddRandomBookViaApi = () => {
-    dispatch(fetchBook('http://localhost:4000/random-book'));
-  };
+    dispatch(fetchBook('http://localhost:4000/random-book'))
+  }
 
   return (
     <div className="app-block book-form">
@@ -63,7 +63,7 @@ const BookForm = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default BookForm;
+export default BookForm

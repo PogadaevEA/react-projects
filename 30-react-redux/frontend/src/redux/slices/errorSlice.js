@@ -1,23 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchBook } from './bookSlice';
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = '';
+const initialState = ''
 
 const errorSlice = createSlice({
   name: 'error',
   initialState,
   reducers: {
     setError: (state, action) => {
-      return action.payload;
+      return action.payload
     },
     clearError: () => {
-      return initialState;
+      return initialState
     },
   },
-});
+})
 
-export const { setError, clearError } = errorSlice.actions;
+export const { setError, clearError } = errorSlice.actions
 
-export const selectErrorMessage = (state) => state.error;
+export const selectErrorMessage = (state) => state.error
 
-export default errorSlice.reducer;
+export default errorSlice.reducer
